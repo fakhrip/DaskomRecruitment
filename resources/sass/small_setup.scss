@@ -1,0 +1,71 @@
+@media only screen and (max-width: 600px) {
+    
+    .main-box {
+
+        position: absolute;
+        height: 400px;
+        width: 400px;
+        top: 50%;
+        left: 50%;
+        margin-top: -200px;
+        margin-left: -200px;
+    }
+
+    .logo-box {
+
+        position: absolute;
+        height: 60px;
+        width: 60px;
+        left: 50%;
+        margin-left: -30px; 
+        border-radius: 50%;
+        background: rgb(242, 255, 59);
+    }
+
+    .logo {
+
+        position: absolute;
+        height: 40px;
+        width: 40px;
+        top: 50%;
+        left: 50%;
+        margin-top: -20px;
+        margin-left: -20px;
+    }
+
+    #daskom-logo {
+
+        left: 50%;
+        margin-left: -20px;
+    }
+
+    .login-box {
+
+        position: absolute;
+        height: 270px;
+        width: 270px;
+        top: 50%;
+        left: 50%;
+        background: rgb(53, 241, 138);
+        margin-top: -135px;
+        margin-left: -135px;
+
+        -webkit-clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+        clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+    }
+
+    .login-box-bg {
+
+        position: absolute;
+        height: 280px;
+        width: 280px;
+        top: 50%;
+        left: 50%;
+        background: rgb(14, 17, 0);
+        margin-top: -140px;
+        margin-left: -140px;
+
+        -webkit-clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+        clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+    }  
+}
