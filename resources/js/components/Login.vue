@@ -6,7 +6,7 @@
             <img class="logo" id="daskom-logo" src="/assets/logo-daskom.svg" alt="daskom's logo">
 
             <div class="form-box">
-                <form @submit.prevent="handleSubmit" class="ui massive form">
+                <form @submit.prevent="handleSubmit" class="ui large form">
                     <div class="field">
                         <div class="ui left icon input">
                             <input type="text" name="nim" placeholder="Nim" v-model="userData.nim">
@@ -15,7 +15,7 @@
                     </div>
                     <div class="field">
                         <div class="ui left icon input">
-                            <input type="text" class="ui left icon input" name="password" placeholder="Password" v-model="userData.password">
+                            <input type="password" class="ui left icon input" name="password" placeholder="Password" v-model="userData.password">
                             <i class="lock icon"></i>
                         </div>
                     </div>

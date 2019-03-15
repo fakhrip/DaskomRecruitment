@@ -13,12 +13,14 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
     <body>
-        <div class="body-box">
-            <canvas id="main-canvas"></canvas>
-            <img src="/assets/background.png" class="bg" alt="">
-            <div class="main-box" id="app">
-                <login class="login-content"></login>
+        <main id="swup">
+            <div class="body-box">
+                <canvas id="main-canvas"></canvas>
+                <img src="/assets/background.png" class="bg" alt="">
+                <div class="main-box" id="app">
+                    <login class="login-content"></login>
+                </div>
             </div>
-        </div>
+        </main>
     </body>
 </html>

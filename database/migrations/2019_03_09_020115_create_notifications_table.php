@@ -16,11 +16,11 @@ class CreateNotificationsTable extends Migration
         Schema::create('notifications', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->text('message');
-            $table->integer('receipent_id');
+            $table->bigInteger('recipient_id')->unsigned();
             $table->integer('seen'); // 1 => have been seen; 0 => have not been seen
             $table->timestamps();
 
-            $table->foreign('receipent_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('recipient_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

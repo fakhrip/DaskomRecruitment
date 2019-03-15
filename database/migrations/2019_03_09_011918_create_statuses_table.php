@@ -15,7 +15,7 @@ class CreateStatusesTable extends Migration
     {
         Schema::create('statuses', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id');
+            $table->bigInteger('user_id')->unsigned();
             $table->integer('tahap_berkas');
             $table->integer('tahap_tes');
             $table->integer('tahap_wawancara');
@@ -32,7 +32,10 @@ class CreateStatusesTable extends Migration
 
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
         });
     }
 
