@@ -2,23 +2,30 @@
     <div class="container">
         <div class="login-box-bg"></div>
         <div class="login-box">
-            <form @submit.prevent="handleSubmit" class="form-box">
-                <div class="form-group">
-                    <label for="nim">Nim</label>
-                    <input type="text" class="form-control" name="nim" placeholder="Nim" v-model="userData.nim" :class="{ 'is-invalid': submitted && !userData.nim }">
-                    <div v-show="submitted && !userData.nim" class="invalid-feedback">Nim is required</div>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="text" class="form-control" name="password" placeholder="Password" v-model="userData.password" :class="{ 'is-invalid': submitted && !userData.password }">
-                    <div v-show="submitted && !userData.password" class="invalid-feedback">Password is required</div>
-                </div>
-                <button type="submit" style="width: 150px; display: block;" class="mx-auto btn btn-primary">Login</button>
-            </form>
-        </div>
-        <div class="logo-box">
+
             <img class="logo" id="daskom-logo" src="/assets/logo-daskom.svg" alt="daskom's logo">
+
+            <div class="form-box">
+                <form @submit.prevent="handleSubmit" class="ui massive form">
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <input type="text" name="nim" placeholder="Nim" v-model="userData.nim">
+                            <i class="user secret icon"></i>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <input type="text" class="ui left icon input" name="password" placeholder="Password" v-model="userData.password">
+                            <i class="lock icon"></i>
+                        </div>
+                    </div>
+                    <button class="ui button" type="submit">Submit</button>
+                </form>
+            </div>
         </div>
+        <!-- <div class="logo-box">
+            <img class="logo" id="daskom-logo" src="/assets/logo-daskom.svg" alt="daskom's logo">
+        </div> -->
     </div>
 </template>
 

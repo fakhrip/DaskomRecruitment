@@ -11,32 +11,11 @@
         margin-left: -250px;
     }
 
-    .logo-box {
-
-        position: absolute;
-        height: 80px;
-        width: 80px;
-        left: 50%;
-        margin-left: -40px; 
-        border-radius: 50%;
-        background: rgb(242, 255, 59);
-    }
-
     .logo {
 
-        position: absolute;
-        height: 50px;
-        width: 50px;
-        top: 50%;
-        left: 50%;
-        margin-top: -25px;
-        margin-left: -25px;
-    }
-
-    #daskom-logo {
-
-        left: 50%;
-        margin-left: -25px;
+        height: 100%;
+        width: 100%;
+        opacity: 0.7;
     }
 
     .login-box {

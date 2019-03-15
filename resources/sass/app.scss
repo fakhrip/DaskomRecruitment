@@ -5,6 +5,7 @@
 // Variables
 @import 'variables';
 @import '~bootstrap/scss/bootstrap';
+@import '~semantic-ui/dist/semantic.min';
 @import 'verybig_setup';
 @import 'big_setup';
 @import 'small_setup';
@@ -39,12 +40,13 @@ img.bg {
 
 .form-box {
   position: absolute;
-  height: 210px;
-  width: auto;
-  top: 50%;
-  left: 15px;
-  right: 15px;
-  margin-top: -105px;
+  height: 100%;
+  width: 100%;
+  top: 0;
+
+  padding: 25px;
+  padding-top: 65px;
+
 }
 
 .login-content {

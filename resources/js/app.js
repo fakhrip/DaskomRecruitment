@@ -7,6 +7,7 @@
 
 require('./bootstrap');
 require('./main');
+require('../../node_modules/semantic-ui/dist/semantic.min')
 import VueRouter from 'vue-router';
 import './jquery.mCustomScrollbar.concat.min';
 
