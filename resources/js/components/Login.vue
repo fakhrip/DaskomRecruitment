@@ -1,42 +1,76 @@
 <template>
     <div class="ui middle aligned centered grid">
-        <div class="column">
-            <div class="login-box-bg"></div>
-            <div class="login-box">
+        <div class="ui shape">
+            <div class="sides">
+                <div class="side active">
+                    <div class="column">
+                        <div class="login-box-bg"></div>
+                        <div class="login-box">
 
-                <img class="logo" id="daskom-logo" src="/assets/logo-daskom.svg" alt="daskom's logo">
-                <form class="ui large form login">
-                    <div class="field">
-                        <label>Nim</label>
-                        <div class="ui left icon input">
-                            <input type="text" name="nim" placeholder="Nim">
-                            <i class="user secret icon"></i>
+                            <img class="logo" id="daskom-logo" src="/assets/logo-daskom.svg" alt="daskom's logo">
+                            <form class="ui large form login">
+                                <div class="field">
+                                    <label>Nim</label>
+                                    <div class="ui left icon input">
+                                        <input type="text" name="nim" placeholder="Nim">
+                                        <i class="user secret icon"></i>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label>Password</label>
+                                    <div class="ui left icon input">
+                                        <input type="password" name="password" placeholder="Password">
+                                        <i class="lock icon"></i>
+                                    </div>
+                                </div>
+                                <div class="ui animated primary large fluid submit button" tabindex="0">
+                                    <div class="visible content">Login</div>
+                                    <div class="hidden content">
+                                        <i class="right arrow icon"></i>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    <div class="field">
-                        <label>Password</label>
-                        <div class="ui left icon input">
-                            <input type="password" name="password" placeholder="Password">
-                            <i class="lock icon"></i>
+                </div>
+                <div class="side">
+                    <div class="column">
+                        <div class="login-box-bg"></div>
+                        <div class="login-box">
+                            <div class="ui text container">
+                                <h2 class="ui header welcome">Welcome aboard 🤝,<br>{{ this.userData.name }}</h2>
+                            </div>
                         </div>
                     </div>
-                    <div class="ui animated primary large fluid submit button" tabindex="0">
-                        <div class="visible content">Login</div>
-                        <div class="hidden content">
-                            <i class="right arrow icon"></i>
-                        </div>
-                    </div>
-                </form>
+                </div>
             </div>
-        </div> 
+        </div>
     </div>
 </template>
 
+<style>
+    .ui.shape {
+        margin: auto;
+        text-align: initial;
+    }
+
+    .ui.text.container {
+        width: 100%;
+        height: 100%;
+        text-align: center;
+    }
+</style>
+
+
 <script>
     export default {
-        props: ['userData'],
         data(){
             return{
+                userData : {
+                    name: "",
+                    nim: "",
+                    password: "",
+                },
                 hostname: "http://"+window.location.hostname //change this on production with an htttps
             }
         },
@@ -45,9 +79,13 @@
 
             var globe = this;
 
-            // if(!globe.userData == ""){
-            //     window.location.href = globe.hostname+"/logout";
-            // }
+            var delay = ( function() {
+                var timer = 0;
+                return function(callback, ms) {
+                    clearTimeout (timer);
+                    timer = setTimeout(callback, ms);
+                };
+            })();
 
             $('.ui.form .submit.button')
                 .api({
@@ -61,7 +99,15 @@
                     },
                     onResponse: function(response) {
                         if(parseInt(response.response, 10) == 1){
-                            window.location.href = globe.hostname+"/caas";
+
+                            globe.userData.name = response.user.name;
+                            delay(function(){
+                                $('.shape').shape('flip over');
+                                delay(function(){
+                                    window.location.href = globe.hostname+"/caas";
+                                }, 1000 ); // end delay
+                            }, 400 ); // end delay
+
                         } else {
                             $('.ui.dimmable')
                                 .dimmer('show');

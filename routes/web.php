@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('main');
+    return redirect("/login", 301);
 })->name('main')->middleware('guest');
 
 Route::get('/caas', function () {

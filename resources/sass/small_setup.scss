@@ -1,5 +1,15 @@
 @media only screen and (max-width: 600px) {
 
+    .ui.header.welcome {
+        width: 80%;
+        height: 65%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -32.5%;
+        margin-left: -40%;
+    }
+
     .logo {
 
         height: 100%;
@@ -25,7 +35,7 @@
         width: 270px;
         top: 50%;
         left: 50%;
-        background: rgb(53, 241, 138);
+        background: rgb(43, 216, 121);
         margin-top: -135px;
         margin-left: -135px;
 

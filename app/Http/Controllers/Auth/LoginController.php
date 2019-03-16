@@ -28,6 +28,8 @@ class LoginController extends Controller
         return 'nim';
     }
 
+    protected $redirectTo = '';
+
     /**
      * The user has been authenticated.
      *
@@ -37,7 +39,7 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        return '{"response": "1"}';
+        return '{"response": "1", "user": '.$user.'}';
     }
 
     /**

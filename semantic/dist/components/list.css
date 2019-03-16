@@ -161,9 +161,9 @@ ol.ui.list ol li,
 .ui.list > .item .header {
   display: block;
   margin: 0em;
-  font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: "Source Sans Pro", 'Helvetica Neue', Arial, Helvetica, sans-serif;
   font-weight: bold;
-  color: rgba(0, 0, 0, 0.87);
+  color: #555555;
 }
 
 /* Description */
@@ -187,7 +187,7 @@ ol.ui.list ol li,
 }
 .ui.list .list > a.item:hover,
 .ui.list > a.item:hover {
-  color: #1e70bf;
+  color: #158cba;
 }
 
 /* Linked Item Icons */
@@ -204,7 +204,7 @@ ol.ui.list ol li,
 }
 .ui.list .list > .item a.header:hover,
 .ui.list > .item a.header:hover {
-  color: #1e70bf !important;
+  color: #158cba !important;
 }
 
 /* Floated Content */
@@ -321,11 +321,11 @@ ol.ui.list ol li,
 .ui.list .list > .disabled.item,
 .ui.list > .disabled.item {
   pointer-events: none;
-  color: rgba(40, 40, 40, 0.3) !important;
+  color: #eeeeee !important;
 }
 .ui.inverted.list .list > .disabled.item,
 .ui.inverted.list > .disabled.item {
-  color: rgba(225, 225, 225, 0.3) !important;
+  color: #eeeeee !important;
 }
 
 /*-------------------
@@ -334,7 +334,7 @@ ol.ui.list ol li,
 
 .ui.list .list > a.item:hover .icon,
 .ui.list > a.item:hover .icon {
-  color: rgba(0, 0, 0, 0.87);
+  color: #555555;
 }
 
 
@@ -368,7 +368,7 @@ ol.ui.list ol li,
 }
 .ui.inverted.list .list > a.item:hover,
 .ui.inverted.list > a.item:hover {
-  color: #1e70bf;
+  color: #158cba;
 }
 
 /* Linking Content */
@@ -376,7 +376,7 @@ ol.ui.list ol li,
   color: rgba(255, 255, 255, 0.9) !important;
 }
 .ui.inverted.list .item a:not(.ui):hover {
-  color: #1e70bf !important;
+  color: #158cba !important;
 }
 
 /*-------------------
@@ -568,7 +568,7 @@ ul.ui.list li:before,
 ul.ui.list li:before,
 .ui.bulleted.list .list > a.item:before,
 .ui.bulleted.list > a.item:before {
-  color: rgba(0, 0, 0, 0.87);
+  color: #555555;
 }
 ul.ui.list ul,
 .ui.bulleted.list .list {
@@ -590,7 +590,7 @@ ul.ui.horizontal.bulleted.list li:first-child,
 }
 ul.ui.horizontal.bulleted.list li::before,
 .ui.horizontal.bulleted.list > .item::before {
-  color: rgba(0, 0, 0, 0.87);
+  color: #555555;
 }
 ul.ui.horizontal.bulleted.list li:first-child::before,
 .ui.horizontal.bulleted.list > .item:first-child::before {
@@ -630,7 +630,7 @@ ol.ui.list li:before,
   counter-increment: ordered;
   content: counters(ordered, ".") " ";
   text-align: right;
-  color: rgba(0, 0, 0, 0.87);
+  color: #555555;
   vertical-align: middle;
   opacity: 0.8;
 }
@@ -676,7 +676,7 @@ ol.ui.horizontal.list li:before,
 --------------------*/
 
 .ui.divided.list > .item {
-  border-top: 1px solid rgba(34, 36, 38, 0.15);
+  border-top: 1px solid #eeeeee;
 }
 .ui.divided.list .list > .item {
   border-top: none;
@@ -740,7 +740,7 @@ ol.ui.horizontal.list li:before,
 }
 .ui.divided.horizontal.list > .item {
   border-top: none;
-  border-left: 1px solid rgba(34, 36, 38, 0.15);
+  border-left: 1px solid #eeeeee;
   margin: 0em;
   line-height: 0.6;
 }
@@ -761,12 +761,12 @@ ol.ui.horizontal.list li:before,
 
 .ui.celled.list > .item,
 .ui.celled.list > .list {
-  border-top: 1px solid rgba(34, 36, 38, 0.15);
+  border-top: 1px solid #eeeeee;
   padding-left: 0.5em;
   padding-right: 0.5em;
 }
 .ui.celled.list > .item:last-child {
-  border-bottom: 1px solid rgba(34, 36, 38, 0.15);
+  border-bottom: 1px solid #eeeeee;
 }
 
 /* Padding on all elements */
@@ -822,7 +822,7 @@ ol.ui.horizontal.list li:before,
 .ui.horizontal.celled.list .list > .item,
 .ui.horizontal.celled.list > .item {
   border-top: none;
-  border-left: 1px solid rgba(34, 36, 38, 0.15);
+  border-left: 1px solid #eeeeee;
   margin: 0em;
   padding-left: 0.5em;
   padding-right: 0.5em;
@@ -831,7 +831,7 @@ ol.ui.horizontal.list li:before,
 .ui.horizontal.celled.list .list > .item:last-child,
 .ui.horizontal.celled.list > .item:last-child {
   border-bottom: none;
-  border-right: 1px solid rgba(34, 36, 38, 0.15);
+  border-right: 1px solid #eeeeee;
 }
 
 /* Inverted */
@@ -939,12 +939,36 @@ ol.ui.horizontal.list li:before,
 .ui.massive.horizontal.list > .item {
   font-size: 1.71428571rem;
 }
-
-
-/*******************************
-         Theme Overrides
-*******************************/
-
+.ui.list .item.positive.active,
+.ui.list a.positive.active {
+  background-color: #28b62c;
+}
+.ui.list .item.positive.active:hover,
+.ui.list a.positive.active:hover,
+.ui.list .item.positive.active:focus,
+.ui.list a.positive.active:focus {
+  background-color: #23a127;
+}
+.ui.list .item.warning.active,
+.ui.list a.warning.active {
+  background-color: #ff851b;
+}
+.ui.list .item.warning.active:hover,
+.ui.list a.warning.active:hover,
+.ui.list .item.warning.active:focus,
+.ui.list a.warning.active:focus {
+  background-color: #ff7701;
+}
+.ui.list .item.negative.active,
+.ui.list a.negative.active {
+  background-color: #ff4136;
+}
+.ui.list .item.negative.active:hover,
+.ui.list a.negative.active:hover,
+.ui.list .item.negative.active:focus,
+.ui.list a.negative.active:focus {
+  background-color: #ff291c;
+}
 
 
 /*******************************
