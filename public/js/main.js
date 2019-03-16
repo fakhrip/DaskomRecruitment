@@ -7,6 +7,14 @@ c.width = window.innerWidth;
 
 $( document ).ready(function() {
     init();
+
+    $('.ui.form.login')
+        .form({
+            fields: {
+                nim     : 'empty',
+                password   : 'empty'
+            }
+        });
 });
 
 $(window).resize(function(){

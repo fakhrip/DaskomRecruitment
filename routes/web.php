@@ -15,8 +15,8 @@ Route::get('/', function () {
     return view('main');
 });
 
-Route::get('/main2', function () {
-    return view('main2');
+Route::get('/caas', function () {
+    return view('caas');
 });
 
 Auth::routes();

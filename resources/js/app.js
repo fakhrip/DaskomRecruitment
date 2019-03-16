@@ -6,7 +6,6 @@
  */
 
 require('./bootstrap');
-require('./main');
 require('../../semantic/dist/semantic.min');
 require('../../node_modules/swupjs/dist/swupjs.min');
 import './jquery.mCustomScrollbar.concat.min';
@@ -38,6 +37,7 @@ let options = {
 const swupjs = new Swupjs(options);
 
 Vue.component('login', require('./components/Login.vue').default);
+Vue.component('caas-component', require('./components/Caas-component.vue').default);
 
 const app = new Vue({
     el: '#app'

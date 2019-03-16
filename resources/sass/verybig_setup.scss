@@ -1,21 +1,21 @@
 @media only screen and (min-width: 992px) and (min-height: 768px) {
-    
-    .main-box {
-
-        position: absolute;
-        height: 500px;
-        width: 500px;
-        top: 50%;
-        left: 50%;
-        margin-top: -250px;
-        margin-left: -250px;
-    }
 
     .logo {
 
         height: 100%;
         width: 100%;
-        opacity: 0.7;
+        opacity: 0.4;
+    }
+
+    .ui.form.login {
+        width: 80%;
+        height: 50%;
+        position: absolute;
+        margin: auto;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
     }
 
     .login-box {

@@ -11,14 +11,20 @@
 
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
         <script src="{{ asset('js/app.js') }}" defer></script>
+        <script src="{{ asset('js/main.js') }}" defer></script>
     </head>
     <body>
         <main id="swup">
-            <div class="body-box">
+            <div class="body-box ui dimmable">
                 <canvas id="main-canvas"></canvas>
                 <img src="/assets/background.png" class="bg" alt="">
-                <div class="main-box" id="app">
+                <div id="app" class="main-box">
                     <login class="login-content"></login>
+                </div>
+                <div class="ui page dimmer">
+                    <div class="content">
+                        <h1 class="ui inverted header">Sorry i can't find the combination of this<br>nim and password 😕</h1>
+                    </div>
                 </div>
             </div>
         </main>

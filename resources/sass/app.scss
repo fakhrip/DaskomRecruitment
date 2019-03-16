@@ -4,8 +4,8 @@
 
 // Variables
 @import 'variables';
-@import '~bootstrap/scss/bootstrap';
-@import 'semantic/dist/semantic.min';
+// @import '~bootstrap/scss/bootstrap';
+@import 'semantic/dist/semantic';
 @import 'verybig_setup';
 @import 'big_setup';
 @import 'small_setup';
@@ -33,26 +33,24 @@ img.bg {
   }
 }
 
+.main-box {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.grid {
+  height: 100%;
+}
+.column {
+  max-width: 450px;
+}
+
 .body-box {
   overflow: hidden;
   position: fixed;
-}
-
-.form-box {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 0;
-
-  padding: 25px;
-  padding-top: 65px;
-
-}
-
-.login-content {
-  position: absolute;
-  height: 100%;
-  width: 100%;
 }
 
 body {

@@ -15,8 +15,8 @@
     <body>
         <main id="swup">
             <div class="body-box">
-                <div>
-                    JUST FOR TEST
+                <div id="app">
+                    <caas-component></caas-component>
                 </div>
             </div>
         </main>
