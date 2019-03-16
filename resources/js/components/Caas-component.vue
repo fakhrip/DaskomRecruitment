@@ -16,8 +16,14 @@
 
 <script>
     export default {
+        data(){
+            return{
+                hostname: "http://"+window.location.hostname //change this on production with an htttps
+            }
+        },
         mounted() {
-            console.log('Component mounted.')
+            
+            
         }
     }
 </script>

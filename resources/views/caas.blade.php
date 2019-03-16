@@ -14,9 +14,14 @@
     </head>
     <body>
         <main id="swup">
-            <div class="body-box">
+            <div class="body-box ui dimmable">
                 <div id="app">
                     <caas-component></caas-component>
+                </div>
+                <div class="ui page dimmer">
+                    <div class="content">
+                        <h1 class="ui inverted header">Sorry i can't find the combination of this<br>nim and password 😕</h1>
+                    </div>
                 </div>
             </div>
         </main>

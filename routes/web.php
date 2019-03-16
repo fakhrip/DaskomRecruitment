@@ -13,10 +13,12 @@
 
 Route::get('/', function () {
     return view('main');
-});
+})->name('main')->middleware('guest');
 
 Route::get('/caas', function () {
     return view('caas');
-});
+})->middleware('auth');
+
+Route::get('/logout', 'Auth\LoginController@logout')->middleware('auth');
 
 Auth::routes();

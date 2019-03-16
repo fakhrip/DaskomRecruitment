@@ -1780,9 +1780,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    console.log('Component mounted.');
-  }
+  data: function data() {
+    return {
+      hostname: "http://" + window.location.hostname //change this on production with an htttps
+
+    };
+  },
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -1831,6 +1835,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['userData'],
   data: function data() {
     return {
       hostname: "http://" + window.location.hostname //change this on production with an htttps
@@ -1838,14 +1843,15 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    var globe = this;
+    var globe = this; // if(!globe.userData == ""){
+    //     window.location.href = globe.hostname+"/logout";
+    // }
+
     $('.ui.form .submit.button').api({
-      url: '/api/loginPracticant',
+      url: '/login',
       method: 'POST',
       serializeForm: true,
       beforeSend: function beforeSend(setting) {
-        console.log(setting.data);
-
         if (!$(".ui.form").form('is valid')) {
           return false;
         } else return true;
@@ -1856,17 +1862,13 @@ __webpack_require__.r(__webpack_exports__);
         } else {
           $('.ui.dimmable').dimmer('show');
         }
+      },
+      onError: function onError(errorMessage, element, xhr) {
+        console.log(errorMessage + "--" + element + "--" + xhr);
       }
     });
     $('.ui.form').submit(function (evt) {
       evt.preventDefault();
-    });
-    fetch(this.hostname + "/api/logoutPracticant", {
-      method: 'post'
-    }).then(function (data) {
-      console.log("User successfully logout");
-    }).catch(function (err) {
-      return console.log(err);
     });
   }
 });

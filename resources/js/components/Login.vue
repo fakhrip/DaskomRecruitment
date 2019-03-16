@@ -34,6 +34,7 @@
 
 <script>
     export default {
+        props: ['userData'],
         data(){
             return{
                 hostname: "http://"+window.location.hostname //change this on production with an htttps
@@ -44,13 +45,16 @@
 
             var globe = this;
 
+            // if(!globe.userData == ""){
+            //     window.location.href = globe.hostname+"/logout";
+            // }
+
             $('.ui.form .submit.button')
                 .api({
-                    url: '/api/loginPracticant',
+                    url: '/login',
                     method : 'POST',
                     serializeForm: true,
                     beforeSend: function (setting) {
-                        console.log(setting.data);
                         if (!$(".ui.form").form('is valid')) {
                             return false;
                         } else return true;
@@ -62,6 +66,9 @@
                             $('.ui.dimmable')
                                 .dimmer('show');
                         }
+                    },
+                    onError: function(errorMessage, element, xhr){
+                        console.log(errorMessage + "--" + element + "--" + xhr);
                     }
                 });
 
@@ -69,14 +76,6 @@
                 .submit(function(evt) {
                     evt.preventDefault();
                 });
-
-            fetch(this.hostname+`/api/logoutPracticant`, {
-                method: 'post'
-            })
-            .then(data => {
-                console.log("User successfully logout");
-            })
-            .catch(err => console.log(err))
         }
     }
 </script>

@@ -19,25 +19,6 @@ class UserController extends Controller
     }
 
     /**
-     * Login in the practicant (Custom Auth Laravel).
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function login(Request $request) {
-        if (Auth::attempt(['nim' => $request->input('nim'), 'password' => $request->input('password')])) {
-            // Authentication passed...
-            return '{"response": "1"}';
-        } else {
-
-            return '{"response": "0"}';
-        }
-    }
-
-    public function logout(){
-        Auth::logout();
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

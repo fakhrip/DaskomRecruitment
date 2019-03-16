@@ -19,7 +19,7 @@
                 <canvas id="main-canvas"></canvas>
                 <img src="/assets/background.png" class="bg" alt="">
                 <div id="app" class="main-box">
-                    <login class="login-content"></login>
+                    <login class="login-content" user-data="{{ Auth::user() }}"></login>
                 </div>
                 <div class="ui page dimmer">
                     <div class="content">

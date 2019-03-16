@@ -16,8 +16,3 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-//Login
-Route::post('loginPracticant', 'API\UserController@login');
-//logout
-Route::post('logoutPracticant', 'API\UserController@logout');

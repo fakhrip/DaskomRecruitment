@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -26,11 +29,29 @@ class LoginController extends Controller
     }
 
     /**
-     * Where to redirect users after login.
+     * The user has been authenticated.
      *
-     * @var string
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
      */
-    protected $redirectTo = '/';
+    protected function authenticated(Request $request, $user)
+    {
+        return '{"response": "1"}';
+    }
+
+    /**
+     * Get the failed login response instance.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        return '{"response": "0"}';
+    }
 
     /**
      * Create a new controller instance.
@@ -40,5 +61,32 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }    
+    
+    /**
+    * Show the application's login form.
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function showLoginForm()
+    {
+        return view('main');
+    }
+
+    /**
+     * Attempt to log the user into the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    protected function attemptLogin(Request $request)
+    {
+        if (Auth::viaRemember()) {
+            return true;
+        }
+
+        return $this->guard()->attempt(
+            $this->credentials($request), true
+        );
     }
 }
