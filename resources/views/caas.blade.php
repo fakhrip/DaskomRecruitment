@@ -15,8 +15,9 @@
     <body>
         <main id="swup">
             <div class="body-box ui dimmable">
+                {{-- <img src="/assets/bg-elektro.jpg" class="bg" alt="" id="bg_jurusan"> --}}
                 <div id="app">
-                    <caas-component></caas-component>
+                    <caas-component user-data="{{ Auth::user() }}"></caas-component>
                 </div>
                 <div class="ui page dimmer">
                     <div class="content">

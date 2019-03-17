@@ -39411,6 +39411,11 @@ body.pushable > .pusher {
     margin-left: -40%;
   }
 
+  .mainLogo {
+    width: 50px;
+    height: 50px;
+  }
+
   .logo {
     height: 100%;
     width: 100%;
@@ -39466,6 +39471,11 @@ body.pushable > .pusher {
     margin-left: -40%;
   }
 
+  .mainLogo {
+    width: 50px;
+    height: 50px;
+  }
+
   .logo {
     height: 100%;
     width: 100%;
@@ -39519,6 +39529,11 @@ body.pushable > .pusher {
     left: 50%;
     margin-top: -32.5%;
     margin-left: -40%;
+  }
+
+  .mainLogo {
+    width: 20px;
+    height: 20px;
   }
 
   .logo {
