@@ -6,8 +6,6 @@
                     <div class="column">
                         <div class="login-box-bg"></div>
                         <div class="login-box">
-
-                            <img class="logo" id="daskom-logo" src="/assets/logo-daskom.svg" alt="daskom's logo">
                             <form class="ui large form login">
                                 <div class="field">
                                     <label>Nim</label>
@@ -121,6 +119,14 @@
             $('.ui.form')
                 .submit(function(evt) {
                     evt.preventDefault();
+                });
+
+            $('.ui.form.login')
+                .form({
+                    fields: {
+                        nim     : 'empty',
+                        password   : 'empty'
+                    }
                 });
         }
     }

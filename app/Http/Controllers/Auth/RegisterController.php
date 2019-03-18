@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -24,20 +27,28 @@ class RegisterController extends Controller
     use RegistersUsers;
 
     /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/';
-
-    /**
      * Create a new controller instance.
      *
      * @return void
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('auth');
+    }
+
+    
+    public function register(Request $request)
+    {
+        if($request->user()->nim == '123'){
+            $this->validator($request->all())->validate();
+    
+            event(new Registered($user = $this->create($request->all())));
+    
+            return $this->registered($request, $user)
+                            ?: redirect($this->redirectPath());
+        } else {
+            return '{"response": "You are not admin"}';
+        }
     }
 
     /**
@@ -52,14 +63,22 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'nim' => ['required', 'string', 'max:255', 'unique:users'],
             'jurusan' => ['required', 'string', 'max:255'],
-            'ttl' => ['required', 'string', 'max:255'],
-            'kelas' => ['required', 'string', 'max:255'],
-            'nohp' => ['required', 'string', 'max:255', 'unique:users'],
-            'kelebihan' => ['required', 'string', 'max:255'],
-            'kekurangan' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
+    }
+
+    /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        $user->api_token = hash('sha256', Str::random(60));
+        $user->save();
+        return redirect('/caas');
     }
 
     /**
@@ -74,12 +93,6 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'nim' => $data['nim'],
             'jurusan' => $data['jurusan'],
-            'ttl' => $data['ttl'],
-            'kelas' => $data['kelas'],
-            'nohp' => $data['nohp'],
-            'kelebihan' => $data['kelebihan'],
-            'kekurangan' => $data['kekurangan'],
-            'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
     }

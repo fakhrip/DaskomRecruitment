@@ -21,4 +21,16 @@ Route::get('/caas', function () {
 
 Route::get('/logout', 'Auth\LoginController@logout')->middleware('auth');
 
+Route::get('/updateToken', 'API\UserController@index')
+    ->name('updateToken')->middleware('auth');
+
+Route::post('/notification', 'API\NotificationController@store')
+    ->name('createNotification')->middleware('auth');
+    
+Route::post('/updateStatus', 'API\StatusController@store')
+    ->name('updateStatus')->middleware('auth');
+    
+Route::post('/addAvailableSchedule', 'API\AvailableScheduleController@store')
+    ->name('addSchedule')->middleware('auth');
+
 Auth::routes();

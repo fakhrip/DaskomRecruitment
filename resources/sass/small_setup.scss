@@ -2,24 +2,33 @@
 
     .ui.header.welcome {
         width: 80%;
-        height: 65%;
+        height: 30%;
         position: absolute;
         top: 50%;
         left: 50%;
-        margin-top: -32.5%;
+        margin-top: -15%;
         margin-left: -40%;
     }
+    
+    img.bg {
+        
+        position: fixed;
+        top: 0;
+        left: 0;
+        content:url("http://faitechno.test/assets/background-portrait.png");
 
-    .mainLogo {
-        width: 20px;
-        height: 20px;
-    }
-
-    .logo {
-
-        height: 100%;
+        height: auto;
         width: 100%;
-        opacity: 0.4;
+
+        -webkit-background-size: 100% 100%;
+        -moz-background-size: 100% 100%;
+        -o-background-size:  100% 100%;
+        background-size:  100% 100%;
+    }
+    
+    .mainLogo {
+        width: 50px;
+        height: 50px;
     }
 
     .ui.form.login {
@@ -43,9 +52,6 @@
         background: rgb(43, 216, 121);
         margin-top: -135px;
         margin-left: -135px;
-
-        -webkit-clip-path: polygon(15% 0%, 85% 0%, 100% 15%, 100% 85%, 85% 100%, 15% 100%, 0% 85%, 0% 15%);
-        clip-path: polygon(15% 0%, 85% 0%, 100% 15%, 100% 85%, 85% 100%, 15% 100%, 0% 85%, 0% 15%);
     }
 
     .login-box-bg {
@@ -58,8 +64,5 @@
         background: rgb(14, 17, 0);
         margin-top: -140px;
         margin-left: -140px;
-
-        -webkit-clip-path: polygon(15% 0%, 85% 0%, 100% 15%, 100% 85%, 85% 100%, 15% 100%, 0% 85%, 0% 15%);
-        clip-path: polygon(15% 0%, 85% 0%, 100% 15%, 100% 85%, 85% 100%, 15% 100%, 0% 85%, 0% 15%);
     }  
 }

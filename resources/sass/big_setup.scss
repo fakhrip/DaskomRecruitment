@@ -10,21 +10,36 @@
         margin-left: -40%;
     }
 
+    img.bg {
+        /* Set rules to fill background */
+        min-width: 1024px;
+        content:url("http://faitechno.test/assets/background.png");
+          
+        /* Set up proportionate scaling */
+        width: 100%;
+        height: auto;
+          
+        /* Set up positioning */
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
+
+    @media screen and (max-width: 1024px) { /* Specific to this particular image */
+        img.bg {
+            left: 50%;
+            margin-left: -512px;   /* 50% */
+        }
+    }
+
     .mainLogo {
         width: 50px;
         height: 50px;
     }
 
-    .logo {
-
-        height: 100%;
-        width: 100%;
-        opacity: 0.4;
-    }
-
     .ui.form.login {
         width: 80%;
-        height: 60%;
+        height: 205px;
         position: absolute;
         margin: auto;
         top: 0;
@@ -36,30 +51,24 @@
     .login-box {
 
         position: absolute;
-        height: 350px;
+        height: 250px;
         width: 350px;
         top: 50%;
         left: 50%;
         background: rgb(43, 216, 121);
-        margin-top: -175px;
+        margin-top: -125px;
         margin-left: -175px;
-
-        -webkit-clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
-        clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
     }
 
     .login-box-bg {
 
         position: absolute;
-        height: 370px;
+        height: 270px;
         width: 370px;
         top: 50%;
         left: 50%;
         background: rgb(14, 17, 0);
-        margin-top: -185px;
+        margin-top: -135px;
         margin-left: -185px;
-
-        -webkit-clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
-        clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
     }  
 }

@@ -8,9 +8,12 @@
 require('./bootstrap');
 require('../../semantic/dist/semantic.min');
 require('../../node_modules/swupjs/dist/swupjs.min');
+require('../../node_modules/semantic-ui-calendar/dist/calendar.min');
 import './jquery.mCustomScrollbar.concat.min';
+import './jquery.serialize-object.min';
 import Swupjs from 'swup';
 
+window.bcrypt = require('bcryptjs');
 window.Vue = require('vue');
 
 let options = {
@@ -38,6 +41,9 @@ const swupjs = new Swupjs(options);
 
 Vue.component('login', require('./components/Login.vue').default);
 Vue.component('caas-component', require('./components/Caas-component.vue').default);
+Vue.component('calendar-component', require('./components/Calendar-component.vue').default);
+
+Vue.use(require('vue-moment'));
 
 const app = new Vue({
     el: '#app'

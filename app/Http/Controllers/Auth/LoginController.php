@@ -83,12 +83,8 @@ class LoginController extends Controller
      */
     protected function attemptLogin(Request $request)
     {
-        if (Auth::viaRemember()) {
-            return true;
-        }
-
         return $this->guard()->attempt(
-            $this->credentials($request), true
+            $this->credentials($request), false
         );
     }
 }

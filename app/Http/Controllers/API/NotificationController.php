@@ -4,6 +4,10 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Notification;
+use App\User;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\Notification as NotificationResource;
 
 class NotificationController extends Controller
 {
@@ -12,9 +16,10 @@ class NotificationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $notifications = Notification::where('recipient_id', $request->user()->id)->get();
+        return NotificationResource::collection($notifications);
     }
 
     /**
@@ -25,7 +30,25 @@ class NotificationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if($request->user()->nim == '123132'){
+
+            $notification = new Notification;
+            $notification->message = $request->input('message');
+
+            try{
+                $chosenuserId = User::where('nim', $request->input('nim'))->firstOrFail();
+            } catch (ModelNotFoundException $e){
+                return $e;
+            }
+
+            $notification->recipient_id = $chosenuserId->id;
+            $notification->seen = 0;
+            $notification->save();
+
+            return redirect('caas');
+        } else {
+            return '{"response": "You are not admin"}';
+        }
     }
 
     /**
@@ -60,5 +83,21 @@ class NotificationController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Update seen all notification
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function seeAllNotification(Request $request)
+    {
+        $notifications = Notification::where('recipient_id', $request->user()->id)->get();
+        foreach ($notifications as $notification) {
+            $notification->seen = 1;
+            $notification->save();
+        }
+        return '{"response": "success"}';
     }
 }

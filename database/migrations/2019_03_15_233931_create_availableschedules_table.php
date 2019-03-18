@@ -17,8 +17,13 @@ class CreateAvailableschedulesTable extends Migration
             $table->bigIncrements('id');
             $table->integer('tahap');
             $table->integer('remaining_quota');
-            $table->integer('available_shift');
-            $table->dateTime('available_schedule');
+            $table->text('available_shift');
+            $table->integer('ruangan');
+
+            //1 -> daskom 3
+            //2 -> daskom 1
+
+            $table->date('schedule');
             $table->timestamps();
         });
     }

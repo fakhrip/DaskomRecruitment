@@ -15,13 +15,13 @@ class CreateStatusesTable extends Migration
     {
         Schema::create('statuses', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id')->unsigned();
-            $table->integer('tahap_berkas');
-            $table->integer('tahap_tes');
-            $table->integer('tahap_wawancara');
-            $table->integer('tahap_tucil');
-            $table->integer('tahap_teaching');
-            $table->integer('tahap_upgrading');
+            $table->bigInteger('user_id')->default(0)->unsigned();
+            $table->integer('tahap_berkas')->default(0)->nullable();
+            $table->integer('tahap_tes')->default(0)->nullable();
+            $table->integer('tahap_wawancara')->default(0)->nullable();
+            $table->integer('tahap_tucil')->default(0)->nullable();
+            $table->integer('tahap_teaching')->default(0)->nullable();
+            $table->integer('tahap_upgrading')->default(0)->nullable();
 
             /*
             * 0 => not start yet

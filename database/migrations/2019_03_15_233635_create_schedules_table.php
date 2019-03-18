@@ -18,9 +18,10 @@ class CreateSchedulesTable extends Migration
             $table->bigInteger('user_id')->unsigned();
             $table->integer('tahap');
             $table->integer('shift');
-            $table->dateTime('schedule');
+            $table->integer('ruangan');
+            $table->date('schedule');
             $table->timestamps();
-
+            
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')

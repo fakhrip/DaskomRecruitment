@@ -16,3 +16,7 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::middleware('auth:api')->get('/notifications', 'API\NotificationController@index');
+Route::middleware('auth:api')->get('/seeAllNotifications', 'API\NotificationController@seeAllNotification');
+Route::middleware('auth:api')->post('/changeUserData', 'API\UserController@update');
+Route::middleware('auth:api')->post('/getAllAvailableSchedules', 'API\AvailableScheduleController@index');
