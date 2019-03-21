@@ -61,7 +61,7 @@
     export default {
         data(){
             return{
-                hostname: "http://"+window.location.hostname //change this on production with an htttps
+                hostname: "https://"+window.location.hostname //change this on production with an htttps
             }
         },
 

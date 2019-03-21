@@ -195,7 +195,7 @@
                 notificationExist: false,
                 windowWidth: 0,
                 windowHeight: 0,
-                hostname: "http://"+window.location.hostname //change this on production with an htttps
+                hostname: "https://"+window.location.hostname //change this on production with an htttps
             }
         },
         
@@ -236,12 +236,17 @@
             showNotifications(){
                 $('.ui.modal.notification')
                     .modal('show');
-                fetch(this.hostname+`/api/seeAllNotifications?api_token=`+this.user.api_token)
-                    .then(res => res.json())
-                    .then(res => {
-                        this.getAllNotifications();
-                    })
-                    .catch(err => console.log(err))
+                fetch(this.hostname+`/api/seeAllNotifications`, {
+                    headers: {
+                        'Authorization' : 'Bearer '.this.user.api_token,
+                        'Accept' : 'application/json',
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    this.getAllNotifications();
+                })
+                .catch(err => console.log(err))
             },
 
             logout(event) {
