@@ -417,7 +417,7 @@
                             rules: [
                             {
                                 type   : 'regExp[/^([A-Z]){3}$/]',
-                                prompt : 'Please enter exactly 3 capital letter code (Ex: FAI)'
+                                prompt : 'Please enter exactly 3 capital letter code (Ex: FIA)'
                             }
                             ]
                         },

@@ -22,16 +22,33 @@ class StatusController extends Controller
         switch($tahap){
             case 1: 
                 $number = $user->tahap_berkas;
+                break;
             case 2:
                 $number = $user->tahap_tes;
+                break;
             case 3:
                 $number = $user->tahap_wawancara;
+                break;
             case 4:
                 $number = $user->tahap_tucil;
+                break;
             case 5:
                 $number = $user->tahap_teaching;
+                break;
             case 6:
                 $number = $user->tahap_upgrading;
+                break;
+        }
+
+        //check for fail stage
+        if($user->tahap_berkas == 3 ||
+            $user->tahap_tes == 3 ||
+            $user->tahap_wawancara == 3 ||
+            $user->tahap_tucil == 3 ||
+            $user->tahap_teaching == 3 ||
+            $user->tahap_upgrading == 3){
+
+            return '{"response": "3"}';
         }
         return '{"response": "'. $number .'"}';
     }
