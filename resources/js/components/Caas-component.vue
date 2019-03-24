@@ -306,15 +306,16 @@
                                 fetch(globe.hostname+`/api/cekSchedule?api_token=`+globe.user.api_token)
                                         .then(res => res.json())
                                         .then(res => {
+                                            globe.scheduleExist = false;
                                             if(res.response != "null"){
                                                 globe.scheduleExist = true;
                                                 globe.schedule = res.data;
                                             }
                                             
                                             if(globe.scheduleExist){
-                                                $('.calendar.icon#schedule-mobile').addClass('red');
+                                                $('.calendar.icon').removeClass('red');
                                             } else {
-                                                $('.calendar.icon#schedule-mobile').removeClass('red');
+                                                $('.calendar.icon').addClass('red');
                                             }
                                         })
                                         .catch(err => console.log(err))
@@ -370,12 +371,13 @@
             },
 
             showNotifications(){
+                let globe = this;
                 $('.ui.modal.notification')
                     .modal({
                         onHidden: function(){
-                            fetch(this.hostname+`/api/seeAllNotifications`, {
+                            fetch(globe.hostname+`/api/seeAllNotifications`, {
                                 headers: {
-                                    'Authorization' : 'Bearer '+this.user.api_token,
+                                    'Authorization' : 'Bearer '+globe.user.api_token,
                                     'Accept' : 'application/json',
                                 }
                             })
@@ -407,6 +409,7 @@
                 .then(res => {
                     this.notifications = res.data;
 
+                    this.notificationExist = false;
                     this.notifications.forEach(notification => {
                         if(notification.seen == 0){
                             this.notificationExist = true;
@@ -469,21 +472,21 @@
             })
             .then(res => res.json())
             .then(res => {
-                if(parseInt(response.response, 10) == 1){
+                if(parseInt(res.response, 10) == 1){
                     this.user.status = "CONGRATULATION YOU HAVE PASSED THIS STAGE 😎"
-                } else if(parseInt(response.response, 10) == 3) {
+                } else if(parseInt(res.response, 10) == 3) {
                     this.user.status = "WE'RE VERY SORRY TO CUT YOU DOWN 😢"
                 } else {
 
                     var textArray = [
-                        'Don’t let what you cannot do interfere with what you can do. 👊',
-                        'Successful and unsuccessful people do not vary greatly in their abilities.\nThey vary in their desires to reach their potential. 🙌',
-                        'Strive for progress, not perfection. 🏆',
-                        'Talk is cheap. Show me the code. 👨‍💻',
-                        'Any fool can write code that a computer can understand.\nGood programmers write code that humans can understand. 👏',
+                        '"Don’t let what you cannot do interfere with what you can do." 👊',
+                        '"Successful and unsuccessful people do not vary greatly in their abilities. They vary in their desires to reach their potential." 🙌',
+                        '"Strive for progress, not perfection." 🏆',
+                        '"Talk is cheap. Show me the code." 👨‍💻',
+                        '"Any fool can write code that a computer can understand. Good programmers write code that humans can understand." 👏',
                     ];
                     var randomNumber = Math.floor(Math.random()*textArray.length);
-                    this.user.status = "Stage On Progress...\n" + textArray[randomNumber];
+                    this.user.status = "Stage On Progress...      " + textArray[randomNumber];
                 }
             })
             .catch(err => console.log(err))
