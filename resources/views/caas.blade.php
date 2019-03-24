@@ -238,7 +238,7 @@
                                         <div class="left aligned four wide column">
                                             <button class="ui big line green button">
                                                 <i class="linechat icon"></i>
-                                                @line
+                                                @svd6059m
                                             </button>
                                         </div>
                                     </div>

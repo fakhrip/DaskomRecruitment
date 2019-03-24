@@ -238,7 +238,7 @@
                     .modal('show');
                 fetch(this.hostname+`/api/seeAllNotifications`, {
                     headers: {
-                        'Authorization' : 'Bearer '.this.user.api_token,
+                        'Authorization' : 'Bearer '+this.user.api_token,
                         'Accept' : 'application/json',
                     }
                 })
@@ -262,13 +262,18 @@
             },
 
             getAllNotifications(){
-                fetch(this.hostname+`/api/notifications?api_token=`+this.user.api_token)
-                    .then(res => res.json())
-                    .then(res => {
-                        this.notifications = res.data;
-                        this.notificationExist = this.newNotificationExist();
-                    })
-                    .catch(err => console.log(err))
+                fetch(this.hostname+`/api/notifications`, {
+                    headers: {
+                        'Authorization' : 'Bearer '+this.user.api_token,
+                        'Accept' : 'application/json',
+                    }
+                })
+                .then(res => res.json())
+                .then(res => {
+                    this.notifications = res.data;
+                    this.notificationExist = this.newNotificationExist();
+                })
+                .catch(err => console.log(err))
             },
 
             changeUserData(event) {
