@@ -25,7 +25,10 @@
             </div>
             <div class="right floated right aligned fourteen wide column" v-else>
                 <div class="ui big icon buttons allmenu">
-                    <button class="ui button usePopUp" data-content="Schedule"><i class="calendar alternate icon"></i></button>
+                    <button class="ui button usePopUp" data-content="Schedule" v-on:click="openSchedule">
+                        <i class="calendar alternate icon" v-if="scheduleExist"></i>
+                        <i class="red calendar alternate icon" v-else></i>
+                    </button>
                     <button class="ui button usePopUp" data-content="Notification" v-on:click="showNotifications">
                         <i class="red bell icon" v-if="notificationExist"></i>
                         <i class="bell icon" v-else></i>
@@ -105,29 +108,49 @@
         <div class="ui modal schedule">
             <div class="header">Schedule</div>
             <div class="scrolling content">
+                <div class="ui raised very padded text container">
+                    <h3 class="ui header">
+                        Your current schedule :
+                    </h3>
+                    <h3 class="ui header" v-if="scheduleExist">
+                        {{ schedule.schedule }} on Shift {{ schedule.shift }} in Daskom {{ schedule.ruangan }}
+                    </h3>
+                    <h3 class="ui header" v-else>
+                        You have not chose a schedule yet
+                    </h3>
+                </div>
+            </div>
+            <div class="actions">
+                <div class="ui black deny button">
+                    Cancel
+                </div>
+                <div class="ui positive right labeled icon button" v-if="!scheduleExist" v-on:click="pickSchedule">
+                    Pick a schedule
+                    <i class="long arrow alternate right icon"></i>
+                </div>
+                <div class="ui positive right labeled icon button" v-else v-on:click="pickSchedule">
+                    Change schedule
+                    <i class="long arrow alternate right icon"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui modal new-schedule">
+            <div class="header">Pick Schedule</div>
+            <div class="scrolling content">
                 <form class="ui form schedule">
                     <div class="field">
-                        <label>Ruangan</label>
-                        <select class="ui fluid dropdown">
-                            <option value="">Ruangan</option>
-                            <option value="1">Daskom 3</option>
-                            <option value="2">Daskom 1</option>
-                        </select>
-                    </div>
-                    <div class="field">
-                        <label>Schedule</label>
-                        <div class="ui calendar" id="calendarSchedule">
-                            <div class="ui input left icon">
-                                <i class="calendar icon"></i>
-                                <input type="text" name="schedule" placeholder="Schedule's Date">
+                        <label>Schedule (Refresh page to update remaining quota)</label>
+                        <div class="ui selection dropdown schedule-dropdown">
+                            <input type="hidden" name="schedule">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Schedule</div>
+                            <div class="menu">
+                                <div class="item" v-for="(schedule, index) in availableSchedules" v-bind:key="schedule.id" :data-value="index">
+                                    {{ schedule.schedule }} on Shift {{ schedule.available_shift }} in Daskom {{ schedule.ruangan }}
+                                    ({{ schedule.remaining_quota }} quota remaining)
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <label>Confirm New Password</label>
-                        <div class="ui left icon input">
-                            <input type="password" name="confirm_password" placeholder="Confirm new password">
-                            <i class="lock icon"></i>
                         </div>
                     </div>
                     <div class="ui error message"></div>
@@ -137,9 +160,9 @@
                 <div class="ui black deny button">
                     Cancel
                 </div>
-                <div class="ui positive right labeled icon button" v-on:click="changeUserData">
-                    Commit changes
-                    <i class="checkmark icon"></i>
+                <div class="ui positive right labeled icon button">
+                    Submit
+                    <i class="long arrow alternate right icon"></i>
                 </div>
             </div>
         </div>
@@ -203,7 +226,15 @@
                     status: "",
                 },
                 schedule: {
+                    id: "",
                     shift: "",
+                    ruangan: "",
+                    schedule: "",
+                },
+                chosenSchedule: {
+                    id: "",
+                    remaining_quota: "",
+                    available_shift: "",
                     ruangan: "",
                     schedule: "",
                 },
@@ -211,6 +242,7 @@
                     code: "",
                     password: "",
                 },
+                scheduleExist: false,
                 notificationExist: false,
                 windowWidth: 0,
                 windowHeight: 0,
@@ -223,6 +255,69 @@
             dim(event) {
                 $('.ui.dimmable')
                     .dimmer('show');
+            },
+
+            openSchedule(event) {
+                $('.ui.modal.schedule')
+                    .modal({
+                        closable  : false,
+                        onDeny    : function(){
+                            return true;
+                        },  
+                        onApprove : function() {
+                            $('.ui.selection.schedule-dropdown')
+                                .dropdown({
+                                    clearable: true
+                                }).dropdown();
+                        }
+                    })
+                    .modal('show');
+            },
+
+            pickSchedule(event) {
+                let globe = this;
+                $('.ui.modal.new-schedule')
+                    .modal({
+                        closable  : false,
+                        onDeny    : function(){
+                            return true;
+                        },  
+                        onApprove : function() {
+                            if($('.ui.form.schedule').form('get value', 'schedule') == ""){
+                                return false;
+                            }
+                            globe.chosenSchedule = globe.availableSchedules[$('.ui.form.schedule').form('get value', 'schedule')];
+                            fetch(globe.hostname+`/api/pickSchedule?api_token=`+globe.user.api_token, {
+                                method: 'post',
+                                body: JSON.stringify(globe.chosenSchedule),
+                                headers: {
+                                    'content-type': 'application/json'
+                                }
+                            })
+                            .then(res => res.json())
+                            .then(res => {
+                                fetch(globe.hostname+`/api/getAllAvailableSchedules?api_token=`+globe.user.api_token)
+                                        .then(res => res.json())
+                                        .then(res => {
+                                            globe.availableSchedules = res.data;
+                                        })
+                                        .catch(err => console.log(err))
+
+                                fetch(globe.hostname+`/api/cekSchedule?api_token=`+globe.user.api_token)
+                                        .then(res => res.json())
+                                        .then(res => {
+                                            if(res.response != "null"){
+                                                globe.scheduleExist = true;
+                                                globe.schedule = res.data;
+                                            }
+                                        })
+                                        .catch(err => console.log(err))
+                                console.log(res.response)
+                            })
+                            .catch(err => console.log(err))
+                        }
+                    })
+                    .modal('show');
             },
 
             showMenu(){
@@ -334,6 +429,13 @@
             
             this.getAllNotifications();
 
+            $('.ui.form.schedule')
+                .form({
+                    fields: {
+                        schedule  : 'empty',
+                    }
+                });
+
             fetch(this.hostname+`/api/cekStatus`, {
                 headers: {
                     'Authorization' : 'Bearer '+this.user.api_token,
@@ -365,6 +467,16 @@
                     .then(res => res.json())
                     .then(res => {
                         globe.availableSchedules = res.data;
+                    })
+                    .catch(err => console.log(err))
+
+            fetch(this.hostname+`/api/cekSchedule?api_token=`+this.user.api_token)
+                    .then(res => res.json())
+                    .then(res => {
+                        if(res.response != "null"){
+                            globe.scheduleExist = true;
+                            globe.schedule = res;
+                        }
                     })
                     .catch(err => console.log(err))
 
