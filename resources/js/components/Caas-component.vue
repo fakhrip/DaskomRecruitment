@@ -1,12 +1,14 @@
 <template>
     <div class="box">
-
         <div class="main-box">
             <div class="ui middle aligned centered grid">
                 <div class="column user-data">
                     <img class="ui big image" src="https://avataaars.io/png/2000?accessoriesType=Round&avatarStyle=Transparent&clotheColor=Heather&clotheType=GraphicShirt&eyeType=Default&eyebrowType=UpDown&facialHairColor=Platinum&facialHairType=Blank&graphicType=Skull&hairColor=Black&hatColor=PastelRed&mouthType=Serious&skinColor=Pale&topType=Hat">
-                    <div class="ui raised segment">
+                    <div class="ui raised segment username">
                         {{ user.name }}
+                    </div>
+                    <div class="ui center aligned text container">
+                        {{ user.status }}
                     </div>
                 </div>
             </div>
@@ -16,8 +18,13 @@
             <div class="left floated left aligned two wide column">
                 <img class="mainLogo" id="daskom-logo" src="/assets/logo-daskom.svg" alt="daskom's logo">
             </div>
-            <div class="right floated right aligned fourteen wide column">
-                <div class="ui big icon buttons">
+            <div class="right floated right aligned fourteen wide column" v-if="this.windowWidth < 600">
+                <button class="ui big button onemenu usePopUp" data-content="Menu" v-on:click="showMenu">
+                    <i class="bars icon"></i>
+                </button>
+            </div>
+            <div class="right floated right aligned fourteen wide column" v-else>
+                <div class="ui big icon buttons allmenu">
                     <button class="ui button usePopUp" data-content="Schedule"><i class="calendar alternate icon"></i></button>
                     <button class="ui button usePopUp" data-content="Notification" v-on:click="showNotifications">
                         <i class="red bell icon" v-if="notificationExist"></i>
@@ -36,11 +43,11 @@
         <div class="ui modal notification">
             <div class="header">Notifications</div>
             <div class="scrolling content">
-                <h3 class="ui header" v-if="notifications">There are no notification yet</h3>
+                <h3 class="ui header" v-if="this.notifications.length < 1">There are no notification yet</h3>
                 <div class="ui feed" v-else v-for="notification in notifications" v-bind:key="notification.id">
                     <div class="event">
                         <div class="label">
-                            <i class="big check icon" v-if="notification.seen === '1'"></i>
+                            <i class="big check icon" v-if="notification.seen == 1"></i>
                             <i class="big exclamation icon" v-else></i>
                         </div>
                         <div class="content">
@@ -145,8 +152,19 @@
         height: 100%;
     }
 
+    .ui.segment.username {
+        margin-top: 0;
+        text-align: center;
+        font-size: 20px;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+
     .column.user-data {
-        padding: 50px;
+        margin: 50px;
+        text-align: center;
+        font-size: 25px;
+        font-weight: bold;
     }
 
     .ui.big.icon.buttons {
@@ -161,7 +179,7 @@
         height: 100%;
     }
 
-    .bg#bg_jurusan {
+    .bg_main#bg_jurusan {
         width: 100%;
         height: 100%;
         background-image: linear-gradient(to bottom, #234c34, #31713e, #4d9740, #75bd38, #a8e31f);
@@ -182,6 +200,7 @@
                     nim: "",
                     jurusan: "",
                     api_token: "",
+                    status: "",
                 },
                 schedule: {
                     shift: "",
@@ -206,13 +225,10 @@
                     .dimmer('show');
             },
 
-            newNotificationExist() {
-                this.notifications.forEach(notification => {
-                    if(notification.seen === '0'){
-                        return true;
-                    }
-                });
-                return false;
+            showMenu(){
+                $('.ui.sidebar')
+                    .sidebar('setting', 'transition', 'overlay')
+                    .sidebar('toggle');
             },
             
             showSetting(){
@@ -235,29 +251,28 @@
 
             showNotifications(){
                 $('.ui.modal.notification')
+                    .modal({
+                        onHidden: function(){
+                            fetch(this.hostname+`/api/seeAllNotifications`, {
+                                headers: {
+                                    'Authorization' : 'Bearer '+this.user.api_token,
+                                    'Accept' : 'application/json',
+                                }
+                            })
+                            .then(res => res.json())
+                            .catch(err => console.log(err))
+                        }
+                    })
                     .modal('show');
-                fetch(this.hostname+`/api/seeAllNotifications`, {
-                    headers: {
-                        'Authorization' : 'Bearer '+this.user.api_token,
-                        'Accept' : 'application/json',
-                    }
-                })
-                .then(res => res.json())
-                .then(res => {
-                    this.getAllNotifications();
-                })
-                .catch(err => console.log(err))
+                this.getAllNotifications();
             },
 
             logout(event) {
                 window.location.href = this.hostname+"/logout";
             },
 
-            getWindowWidth(event) {
+            getWindowSize(event) {
                 this.windowWidth = document.documentElement.clientWidth;
-            },
-
-            getWindowHeight(event) {
                 this.windowHeight = document.documentElement.clientHeight;
             },
 
@@ -271,7 +286,18 @@
                 .then(res => res.json())
                 .then(res => {
                     this.notifications = res.data;
-                    this.notificationExist = this.newNotificationExist();
+
+                    this.notifications.forEach(notification => {
+                        if(notification.seen == 0){
+                            this.notificationExist = true;
+                        }
+                    });
+
+                    if(this.notificationExist){
+                        $('.bell.icon#notification-mobile').addClass('red');
+                    } else {
+                        $('.bell.icon#notification-mobile').removeClass('red');
+                    }
                 })
                 .catch(err => console.log(err))
             },
@@ -298,8 +324,7 @@
         },
 
         beforeDestroy() {
-            window.removeEventListener('resize', this.getWindowWidth);
-            window.removeEventListener('resize', this.getWindowHeight);
+            window.removeEventListener('resize', this.getWindowSize);
         },
 
         mounted() {
@@ -308,6 +333,33 @@
             globe.user = JSON.parse(globe.userData);
             
             this.getAllNotifications();
+
+            fetch(this.hostname+`/api/cekStatus`, {
+                headers: {
+                    'Authorization' : 'Bearer '+this.user.api_token,
+                    'Accept' : 'application/json',
+                }
+            })
+            .then(res => res.json())
+            .then(res => {
+                if(parseInt(response.response, 10) == 1){
+                    this.user.status = "CONGRATULATION YOU HAVE PASSED THIS STAGE 😎"
+                } else if(parseInt(response.response, 10) == 3) {
+                    this.user.status = "WE'RE VERY SORRY TO CUT YOU DOWN 😢"
+                } else {
+
+                    var textArray = [
+                        'Don’t let what you cannot do interfere with what you can do. 👊',
+                        'Successful and unsuccessful people do not vary greatly in their abilities.\nThey vary in their desires to reach their potential. 🙌',
+                        'Strive for progress, not perfection. 🏆',
+                        'Talk is cheap. Show me the code. 👨‍💻',
+                        'Any fool can write code that a computer can understand.\nGood programmers write code that humans can understand. 👏',
+                    ];
+                    var randomNumber = Math.floor(Math.random()*textArray.length);
+                    this.user.status = "Stage On Progress...\n" + textArray[randomNumber];
+                }
+            })
+            .catch(err => console.log(err))
 
             fetch(this.hostname+`/api/getAllAvailableSchedules?api_token=`+this.user.api_token)
                     .then(res => res.json())
@@ -320,6 +372,41 @@
                 .submit(function(evt) {
                     evt.preventDefault();
                 });
+
+            $(".ui.button.schedule").click(function () {
+                $('.ui.sidebar')
+                    .sidebar('setting', 'transition', 'overlay')
+                    .sidebar('toggle');
+                //TODO for schedule on click
+            });
+
+            $(".ui.button.notification").click(function () {
+                $('.ui.sidebar')
+                    .sidebar('setting', 'transition', 'overlay')
+                    .sidebar('toggle');
+                globe.showNotifications();
+            });
+
+            $(".ui.button.settings").click(function () {
+                $('.ui.sidebar')
+                    .sidebar('setting', 'transition', 'overlay')
+                    .sidebar('toggle');
+                globe.showSetting();
+            });
+
+            $(".ui.button.information").click(function () {
+                $('.ui.sidebar')
+                    .sidebar('setting', 'transition', 'overlay')
+                    .sidebar('toggle');
+                globe.dim();
+            });
+
+            $(".ui.button.logout").click(function () {
+                $('.ui.sidebar')
+                    .sidebar('setting', 'transition', 'overlay')
+                    .sidebar('toggle');
+                globe.logout();
+            });
 
             $('.ui.form.setting')
                 .form({
@@ -367,12 +454,10 @@
             $(".ui.button.usePopUp").popup();
 
             this.$nextTick(function() {
-                window.addEventListener('resize', this.getWindowWidth);
-                window.addEventListener('resize', this.getWindowHeight);
+                window.addEventListener('resize', this.getWindowSize);
 
                 //Init
-                this.getWindowWidth()
-                this.getWindowHeight()
+                this.getWindowSize()
             })
 
             $('.ui.dropdown.button')

@@ -6,17 +6,34 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Status;
+use App\Tahap;
 
 class StatusController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-
+    public function index(Request $request) {
+        $tahap = Tahap::find(1)->tahapan;
+        $user = Status::where('user_id', $request->user()->id)->first(); 
+        switch($tahap){
+            case 1: 
+                $number = $user->tahap_berkas;
+            case 2:
+                $number = $user->tahap_tes;
+            case 3:
+                $number = $user->tahap_wawancara;
+            case 4:
+                $number = $user->tahap_tucil;
+            case 5:
+                $number = $user->tahap_teaching;
+            case 6:
+                $number = $user->tahap_upgrading;
+        }
+        return '{"response": "'. $number .'"}';
     }
 
     /**

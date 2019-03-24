@@ -18,5 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 Route::middleware('auth:api')->get('/notifications', 'API\NotificationController@index');
 Route::middleware('auth:api')->get('/seeAllNotifications', 'API\NotificationController@seeAllNotification');
+Route::middleware('auth:api')->get('/getAllAvailableSchedules', 'API\AvailableScheduleController@index');
+Route::middleware('auth:api')->get('/cekStatus', 'API\StatusController@index');
 Route::middleware('auth:api')->post('/changeUserData', 'API\UserController@update');
-Route::middleware('auth:api')->post('/getAllAvailableSchedules', 'API\AvailableScheduleController@index');

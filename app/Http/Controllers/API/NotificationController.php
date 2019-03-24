@@ -35,16 +35,24 @@ class NotificationController extends Controller
             $notification = new Notification;
             $notification->message = $request->input('message');
 
-            try{
-                $chosenuserId = User::where('nim', $request->input('nim'))->firstOrFail();
-            } catch (ModelNotFoundException $e){
-                return $e;
+            if($request->input('nim') == 'all'){
+                $users = User::all();
+                foreach($users as $user){
+                    $notification->recipient_id = $user->id;
+                    $notification->seen = 0;
+                    $notification->save();
+                }
+            } else {
+                $nims = preg_split('/\s+/', $request->input('nim'));
+    
+                foreach($nims as $nim){
+                    $chosenuserId = User::where('nim', $request->input('nim'))->first();
+    
+                    $notification->recipient_id = $chosenuserId->id;
+                    $notification->seen = 0;
+                    $notification->save();
+                }
             }
-
-            $notification->recipient_id = $chosenuserId->id;
-            $notification->seen = 0;
-            $notification->save();
-
             return redirect('caas');
         } else {
             return '{"response": "You are not admin"}';

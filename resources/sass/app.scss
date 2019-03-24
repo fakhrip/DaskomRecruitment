@@ -12,7 +12,30 @@
 @import 'small_setup';
 @import "resources/css/jquery.mCustomScrollbar";
 
-.main-box {
+html.ios {
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+html.ios,
+html.ios body {
+  height: initial !important;
+}
+
+.ui.sidebar {
+  overflow: hidden;
+  background-color: #080e09;
+}
+
+.column.allmenu{
+  margin: 50px;
+}
+
+.ui.big.fluid.button.onemenu {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.main-box, #swup, #app {
   position: absolute;
   top: 0;
   bottom: 0;
