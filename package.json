@@ -32,6 +32,7 @@
         "semantic-ui-calendar": "0.0.8",
         "swupjs": "^1.7.0",
         "vue-moment": "^4.0.0",
-        "vue-router": "^3.0.2"
+        "vue-router": "^3.0.2",
+        "vue-toasted": "^1.1.26"
     }
 }

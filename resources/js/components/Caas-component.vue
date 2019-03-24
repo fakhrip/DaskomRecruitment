@@ -310,9 +310,34 @@
                                                 globe.scheduleExist = true;
                                                 globe.schedule = res.data;
                                             }
+                                            
+                                            if(globe.scheduleExist){
+                                                $('.calendar.icon#schedule-mobile').addClass('red');
+                                            } else {
+                                                $('.calendar.icon#schedule-mobile').removeClass('red');
+                                            }
                                         })
                                         .catch(err => console.log(err))
-                                console.log(res.response)
+                                
+                                if(res.response == "same request"){
+                                    Vue.toasted.info('You input same schedule as before', {
+                                        icon : {
+                                            name : 'info'
+                                        }
+                                    });
+                                } else if(res.response == "success") {
+                                    Vue.toasted.success('Successfully picked a schedule', {
+                                        icon : {
+                                            name : 'check'
+                                        }
+                                    });
+                                } else if(res.response == "no more quota"){
+                                    Vue.toasted.error('No more quota on that schedule', {
+                                        icon : {
+                                            name : 'not_interested'
+                                        }
+                                    });
+                                }
                             })
                             .catch(err => console.log(err))
                         }
@@ -489,7 +514,7 @@
                 $('.ui.sidebar')
                     .sidebar('setting', 'transition', 'overlay')
                     .sidebar('toggle');
-                //TODO for schedule on click
+                globe.openSchedule();
             });
 
             $(".ui.button.notification").click(function () {
