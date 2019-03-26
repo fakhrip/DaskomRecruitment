@@ -21,5 +21,6 @@ Route::middleware('auth:api')->get('/seeAllNotifications', 'API\NotificationCont
 Route::middleware('auth:api')->get('/getAllAvailableSchedules', 'API\AvailableScheduleController@index');
 Route::middleware('auth:api')->get('/cekSchedule', 'API\ScheduleController@index');
 Route::middleware('auth:api')->get('/cekStatus', 'API\StatusController@index');
+Route::middleware('auth:api')->post('/getAllScheduleQuota', 'API\ScheduleController@show');
 Route::middleware('auth:api')->post('/changeUserData', 'API\UserController@update');
 Route::middleware('auth:api')->post('/pickSchedule', 'API\ScheduleController@store');

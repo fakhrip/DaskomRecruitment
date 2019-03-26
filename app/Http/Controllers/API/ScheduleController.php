@@ -122,9 +122,26 @@ class ScheduleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
+        if(Schedule::where([
+            ['schedule', $request->input('schedule')],
+            ['ruangan', $request->input('ruangan')],
+            ['tahap', Tahap::find(1)->tahapan],
+        ])->exists()){
+
+            return ScheduleResource::collection(DB::table('schedules')
+            ->join('users', 'schedules.user_id', '=', 'users.id')
+            ->select('schedules.*', 'users.name', 'users.nim')
+            ->where([
+                ['schedule', $request->input('schedule')],
+                ['ruangan', $request->input('ruangan')],
+                ['tahap', Tahap::find(1)->tahapan],
+            ])
+            ->get());
+        }
+
+        return '{"response": "null"}';
     }
 
     /**

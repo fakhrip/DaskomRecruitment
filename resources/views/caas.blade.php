@@ -18,7 +18,7 @@
                 <div class="stretched row">
                     <div class="column allmenu">
                         <button class="ui big fluid button onemenu schedule">
-                            <i class="calendar alternate icon" id="schedule-mobile"></i>
+                            <i class="calendar alternate icon calendar_mobile"></i>
                             Schedule
                         </button>
                         <button class="ui big fluid button onemenu notification">

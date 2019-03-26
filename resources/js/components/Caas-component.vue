@@ -116,7 +116,7 @@
                         {{ schedule.schedule }} on Shift {{ schedule.shift }} in Daskom {{ schedule.ruangan }}
                     </h3>
                     <h3 class="ui header" v-else>
-                        You have not chose a schedule yet
+                        You have not choose a schedule yet
                     </h3>
                 </div>
             </div>
@@ -155,6 +155,19 @@
                     </div>
                     <div class="ui error message"></div>
                 </form>
+                <div class="ui raised very padded text container">
+                    <h3 class="ui header">
+                        People that have taken this schedule :
+                    </h3>
+                    <div v-if="quotaExist">
+                        <h4 class="ui header" v-for="schedule in allSchedules" v-bind:key="schedule.id" >
+                            {{ schedule.name }} ({{ schedule.nim }})
+                        </h4>
+                    </div>
+                    <h4 class="ui header" v-else>
+                        There are no one in this schedule
+                    </h4>
+                </div>
             </div>
             <div class="actions">
                 <div class="ui black deny button">
@@ -215,6 +228,7 @@
         data(){
             return{
                 notifications: [],
+                allSchedules: [],
                 availableSchedules: [],
                 user: {
                     id: "",
@@ -242,6 +256,7 @@
                     code: "",
                     password: "",
                 },
+                quotaExist: false,
                 scheduleExist: false,
                 notificationExist: false,
                 windowWidth: 0,
@@ -258,6 +273,7 @@
             },
 
             openSchedule(event) {
+                let globe = this;
                 $('.ui.modal.schedule')
                     .modal({
                         closable  : false,
@@ -267,8 +283,28 @@
                         onApprove : function() {
                             $('.ui.selection.schedule-dropdown')
                                 .dropdown({
-                                    clearable: true
-                                }).dropdown();
+                                    onChange: function(value, text, $selectedItem) {
+                                        globe.chosenSchedule = globe.availableSchedules[value];
+                                        fetch(globe.hostname+`/api/getAllScheduleQuota?api_token=`+globe.user.api_token, {
+                                            method: 'post',
+                                            body: JSON.stringify(globe.chosenSchedule),
+                                            headers: {
+                                                'content-type': 'application/json'
+                                            }
+                                        })
+                                        .then(res => res.json())
+                                        .then(res => {
+                                            globe.quotaExist = true;
+                                            if(res.response == "null"){
+                                                globe.quotaExist = false;
+                                            }
+                                            if(globe.quotaExist){
+                                                globe.allSchedules = res;
+                                            }
+                                        })
+                                        .catch(err => console.log(err))
+                                    }
+                                });
                         }
                     })
                     .modal('show');
@@ -283,10 +319,9 @@
                             return true;
                         },  
                         onApprove : function() {
-                            if($('.ui.form.schedule').form('get value', 'schedule') == ""){
+                            if($('.ui.form.schedule').form('get value', 'schedule') == "" || globe.chosenSchedule == null){
                                 return false;
                             }
-                            globe.chosenSchedule = globe.availableSchedules[$('.ui.form.schedule').form('get value', 'schedule')];
                             fetch(globe.hostname+`/api/pickSchedule?api_token=`+globe.user.api_token, {
                                 method: 'post',
                                 body: JSON.stringify(globe.chosenSchedule),
@@ -311,11 +346,11 @@
                                                 globe.scheduleExist = true;
                                                 globe.schedule = res.data;
                                             }
-                                            
+
                                             if(globe.scheduleExist){
-                                                $('.calendar.icon').removeClass('red');
+                                                $('.calendar.icon.calendar_mobile').removeClass('red');
                                             } else {
-                                                $('.calendar.icon').addClass('red');
+                                                $('.calendar.icon.calendar_mobile').addClass('red');
                                             }
                                         })
                                         .catch(err => console.log(err))
@@ -361,10 +396,10 @@
                             return true;
                         },  
                         onApprove : function() {
-                            $('.ui.form.setting').form('submit');
                             if(!$('.ui.form.setting').form('is valid')){
                                 return false;
                             }
+                            $('.ui.form.setting').form('submit');
                         }
                     })
                     .modal('show');
@@ -501,9 +536,16 @@
             fetch(this.hostname+`/api/cekSchedule?api_token=`+this.user.api_token)
                     .then(res => res.json())
                     .then(res => {
+                        globe.scheduleExist = false;
                         if(res.response != "null"){
                             globe.scheduleExist = true;
                             globe.schedule = res;
+                        }
+                        
+                        if(globe.scheduleExist){
+                            $('.calendar.icon.calendar_mobile').removeClass('red');
+                        } else {
+                            $('.calendar.icon.calendar_mobile').addClass('red');
                         }
                     })
                     .catch(err => console.log(err))
