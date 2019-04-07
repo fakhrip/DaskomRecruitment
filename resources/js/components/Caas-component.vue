@@ -25,7 +25,7 @@
             </div>
             <div class="right floated right aligned fourteen wide column" v-else>
                 <div class="ui big icon buttons allmenu">
-                    <button class="ui button usePopUp" data-content="Schedule" v-on:click="openSchedule">
+                    <button class="ui button scheduleBig usePopUp" data-content="Schedule" v-on:click="openSchedule">
                         <i class="calendar alternate icon" v-if="scheduleExist"></i>
                         <i class="red calendar alternate icon" v-else></i>
                     </button>
@@ -33,7 +33,7 @@
                         <i class="red bell icon" v-if="notificationExist"></i>
                         <i class="bell icon" v-else></i>
                     </button>
-                    <button class="ui button usePopUp" data-content="Setting" v-on:click="showSetting"><i class="sliders horizontal icon"></i></button>
+                    <button class="ui button settingBig usePopUp" data-content="Setting" v-on:click="showSetting"><i class="sliders horizontal icon"></i></button>
                     <button class="ui button usePopUp" data-content="Information" v-on:click="dim"><i class="info icon"></i></button>
                 </div>
                 <button class="ui big labeled icon button logout" v-on:click="logout">
@@ -219,6 +219,12 @@
         width: 100%;
         height: 100%;
         background-image: linear-gradient(to bottom, #234c34, #31713e, #4d9740, #75bd38, #a8e31f);
+    }
+
+    .bg_main.red#bg_jurusan {
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(to bottom, #4c2323, #713131, #974040, #bd3838, #e31f1f);
     }
 </style>
 
@@ -510,6 +516,11 @@
                 if(parseInt(res.response, 10) == 1){
                     this.user.status = "CONGRATULATION YOU HAVE PASSED THIS STAGE 😎"
                 } else if(parseInt(res.response, 10) == 3) {
+                    $(".bg_main#bg_jurusan").addClass("red");
+                    $(".button.onemenu.settings").addClass("disabled");
+                    $(".button.onemenu.schedule").addClass("disabled");
+                    $(".button.settingBig").addClass("disabled");
+                    $(".button.scheduleBig").addClass("disabled");
                     this.user.status = "WE'RE VERY SORRY TO CUT YOU DOWN 😢"
                 } else {
 
